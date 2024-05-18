@@ -5,6 +5,20 @@
 * Browsers: last 4 version
 */
 
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 * {
 	margin: 0;
 	padding: 0;
@@ -39,6 +53,13 @@ header {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
+	-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+			justify-content: space-between;
+	gap: 0.5rem;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
 }
 
 header a {
@@ -51,6 +72,9 @@ header a {
 	gap: 0.5rem;
 	color: #cbf3f0;
 	text-decoration: none;
+}
+
+header a:first-child {
 	margin-left: -0.5rem;
 }
 
@@ -58,9 +82,15 @@ header a:hover {
 	color: #ffd60a;
 }
 
-header a svg {
-	width: 2rem;
-	height: 2rem;
+header a:first-child svg {
+	width: 2.5rem;
+	height: 2.5rem;
+	fill: currentColor;
+}
+
+header a:last-child svg {
+	width: 1.5rem;
+	height: 1.5rem;
 	fill: currentColor;
 }
 
