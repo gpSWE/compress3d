@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" >
+	<rect x="16" y="24" width="32" height="16"/>
+	<polygon points="32,8 28,12 32,16 36,12"/>
+	<polygon points="32,56 28,52 32,48 36,52"/>
+	<style>
+		@media (prefers-color-scheme: dark) {
+			rect, polygon { fill: #ffffff; }
+		}
+	</style>
+</svg>
