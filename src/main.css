@@ -1,5 +1,13 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 * {
 	margin: 0;
+	padding: 0;
 }
 
 :root {
@@ -8,4 +16,170 @@
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+	min-height: 100vh;
+	background: #050505;
+	color: #cbf3f0;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+			flex-direction: column;
+}
+
+/* HEADER */
+
+header {
+	padding: 1rem;
+	border-bottom: 1px solid #404040;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+header a {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
+	gap: 0.5rem;
+	color: #cbf3f0;
+	text-decoration: none;
+	margin-left: -0.5rem;
+}
+
+header a:hover {
+	color: #ffd60a;
+}
+
+header a svg {
+	width: 2rem;
+	height: 2rem;
+	fill: currentColor;
+}
+
+/* MAIN */
+
+main {
+	-webkit-box-flex: 1;
+		-ms-flex-positive: 1;
+			flex-grow: 1;
+	padding: 1.5rem 1rem;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	gap: 1rem;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+			flex-direction: column;
+}
+
+/* IMPORT FILES */
+
+#input {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
+	-webkit-box-pack: center;
+		-ms-flex-pack: center;
+			justify-content: center;
+	-webkit-box-flex: 1;
+		-ms-flex-positive: 1;
+			flex-grow: 1;
+	padding: 1rem;
+}
+
+#input button {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	border: 0.1rem solid #ffffff;
+	background: transparent;
+	color: #ffffff;
+	padding: 1rem 5rem;
+	cursor: pointer;
+}
+
+#input button:hover {
+	color: #ffd60a;
+	border-color: #ffd60a;
+}
+
+/* FILE LIST */
+
+#file-list {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+			flex-direction: column;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
+	-webkit-box-pack: center;
+		-ms-flex-pack: center;
+			justify-content: center;
+}
+
+#file-list table {
+	width: 100%;
+	border: 1px solid #202020;
+	border-collapse: collapse;
+}
+
+#file-list table th,
+#file-list table td {
+	border: 1px solid #202020;
+	text-align: left;
+	padding: 1rem;
+}
+
+#file-list table td:nth-child(2) {
+	max-width: 10rem;
+}
+
+#file-list table button {
+	background: transparent;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	border: none;
+}
+
+#file-list table button:not(:disabled) {
+	color: #ffffff;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#file-list table button:disabled {
+	color: #404040;
+}
+
+#file-list table button:not(:disabled):hover {
+	color: #ffd60a;
+}
+
+#file-list .error {
+	color: #f85e00;
+}
+
+/* FOOETR */
+
+footer {
+	padding: 1rem;
+	border-top: 1px solid #404040;
 }
