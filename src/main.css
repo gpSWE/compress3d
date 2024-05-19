@@ -207,9 +207,43 @@ main {
 	color: #f85e00;
 }
 
+#input + #file-list {
+	display: none;
+}
+
 /* FOOETR */
 
 footer {
 	padding: 1rem;
 	border-top: 1px solid #404040;
+}
+
+/* LOADING */
+
+.loader {
+	width: 100%;
+	height: 14px;
+	box-shadow: 0 3px 0 #303030;
+	background: linear-gradient(#303030 0 0) 50%/2px 100% no-repeat;
+	display: grid;
+}
+
+.loader:before,
+.loader:after{
+	content: "";
+	grid-area: 1/1;
+	background: radial-gradient(circle closest-side, var(--c,#303030) 92%,#050505 ) 0 0/calc(100%/4) 100%;
+	clip-path: inset(0 50% 0 0);
+	animation: l3 1s infinite linear;
+}
+
+.loader:after{
+	--c: #ffffff; 
+	clip-path: inset(0 0 0 50%);
+}
+
+@keyframes l3 {
+    100% {
+    	background-position: calc(100%/3) 0
+    }
 }
