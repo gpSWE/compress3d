@@ -23,6 +23,13 @@ export async function importFiles() {
 
 			const file = await fileHandle.getFile()
 
+			// Check for allowed files
+
+			if ( !isValidOBJFile( await file.text() ) ) {
+
+				continue
+			}
+
 			files.set( file.name, file )
 		}
 	}
@@ -49,11 +56,35 @@ export function formatFileSize( bytes ) {
 	const units = [ "Bytes", "KB", "MB", "GB", "TB" ]
 	let i = 0
 
-	while( bytes >= 1024 ){
+	while ( bytes >= 1024 ) {
 
 		i++
 		bytes = bytes / 1024
 	}
 
 	return bytes.toFixed( 1 ) + " " + units[ i ]
+}
+
+export function isValidOBJFile( fileContents ) {
+
+	const lines = fileContents.split( "\n" )
+
+	const objIndicators = [ "v ", "f ", "vn ", "vt ", "g ", "usemtl ", "mtllib " ]
+
+	for ( let line of lines ) {
+
+		line = line.trim()
+
+		if ( !line || line.startsWith( "#" ) ) {
+
+			continue
+		}
+
+		if ( objIndicators.some( indicator => line.startsWith( indicator ) ) ) {
+
+			return true
+		}
+	}
+
+	return false
 }
