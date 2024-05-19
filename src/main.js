@@ -4,88 +4,91 @@ import * as FileUtils from "./utils/FileUtils"
 import * as DOMUtils from "./utils/DOMUtils"
 import Compressor from "./tasks/Compressor?worker"
 
-const objLoader = new OBJLoader()
+export function main() {
 
-const inputButton = document.querySelector( "#input button" )
+	const objLoader = new OBJLoader()
 
-inputButton.onclick = async () => {
+	const inputButton = document.querySelector( "#input button" )
 
-	const files = await FileUtils.importFiles()
+	inputButton.onclick = async () => {
 
-	if ( files ) {
+		const files = await FileUtils.importFiles()
 
-		document.getElementById( "input" ).remove()
+		if ( files ) {
 
-		DOMUtils.DOMRenderFileList( files )
+			document.getElementById( "input" ).remove()
 
-		//
+			DOMUtils.DOMRenderFileList( files )
 
-		const completed = await distributeTasks( [ ...files.values() ], navigator.hardwareConcurrency || 4 )
-	
-		if ( completed ) {
+			//
 
-			console.info( "All tasks completed successfully!" )
+			const completed = await distributeTasks( [ ...files.values() ], navigator.hardwareConcurrency || 4 )
+		
+			if ( completed ) {
+
+				console.info( "All tasks completed successfully!" )
+			}
 		}
 	}
-}
 
-function distributeTasks( tasks, numWorkers ) {
+	function distributeTasks( tasks, numWorkers ) {
 
-	const results = []
-	let completed = 0
-	const workers = []
-	const tasksQueue = tasks.slice()
+		const results = []
+		let completed = 0
+		const workers = []
+		const tasksQueue = tasks.slice()
 
-	return new Promise( ( resolve, reject ) => {
+		return new Promise( ( resolve, reject ) => {
 
-		function onWorkerMessage( { data } ) {
+			function onWorkerMessage( { data } ) {
 
-			const filename = FileUtils.getFilename( data.filename )
+				const filename = FileUtils.getFilename( data.filename )
 
-			const tr = document.querySelector( `tr[data-name="${ filename }"]` )
+				const tr = document.querySelector( `tr[data-name="${ filename }"]` )
 
-			const downloadButton = tr.querySelector( `button` )
+				const downloadButton = tr.querySelector( `button` )
 
-			const fileSize = FileUtils.formatFileSize( data.blob.size )
+				const fileSize = FileUtils.formatFileSize( data.blob.size )
 
-			tr.children[ 3 ].innerHTML = ""
-			tr.children[ 3 ].textContent = fileSize
+				tr.children[ 3 ].innerHTML = ""
+				tr.children[ 3 ].textContent = fileSize
 
-			downloadButton.onclick = () => {
+				downloadButton.onclick = () => {
 
-				FileUtils.downloadBlob( data.blob, filename )
-			}
+					FileUtils.downloadBlob( data.blob, filename )
+				}
 
-			downloadButton.removeAttribute( "disabled" )
+				downloadButton.removeAttribute( "disabled" )
 
-			completed++
+				completed++
 
-			if ( tasksQueue.length > 0 ) {
+				if ( tasksQueue.length > 0 ) {
 
-				this.postMessage( tasksQueue.shift() )
-			}
-			else {
+					this.postMessage( tasksQueue.shift() )
+				}
+				else {
 
-				this.terminate()
+					this.terminate()
 
-				workers.splice( workers.indexOf( this ), 1 )
+					workers.splice( workers.indexOf( this ), 1 )
 
-				if ( completed === tasks.length ) {
+					if ( completed === tasks.length ) {
 
-					resolve( true )
+						resolve( true )
+					}
 				}
 			}
-		}
 
-		for ( let i = 0; i < numWorkers; i++ ) {
+			for ( let i = 0; i < numWorkers; i++ ) {
 
-			if ( tasksQueue.length > 0 ) {
+				if ( tasksQueue.length > 0 ) {
 
-				const worker = new Compressor()
-				workers.push( worker )
-				worker.onmessage = onWorkerMessage
-				worker.postMessage( tasksQueue.shift() )
+					const worker = new Compressor()
+					workers.push( worker )
+					worker.onmessage = onWorkerMessage
+					worker.postMessage( tasksQueue.shift() )
+				}
 			}
-		}
-	} )
+		} )
+	}
 }
