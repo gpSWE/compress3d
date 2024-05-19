@@ -126,6 +126,8 @@ main {
 	-webkit-box-flex: 1;
 		-ms-flex-positive: 1;
 			flex-grow: 1;
+	flex-direction: column;
+	gap: 1rem;
 	padding: 1rem;
 }
 
@@ -144,6 +146,14 @@ main {
 #input button:hover {
 	color: #ffd60a;
 	border-color: #ffd60a;
+}
+
+article a {
+	color: #ffffff;
+}
+
+article a:hover {
+	color: #ffd60a;
 }
 
 /* FILE LIST */
