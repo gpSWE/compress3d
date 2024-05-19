@@ -1,6 +1,7 @@
 import { OBJLoader } from "three/addons/loaders/OBJLoader"
 import { DRACOExporter } from "../library/DRACOExporter"
-import { BufferAttribute } from "three"
+import { BufferAttribute, Mesh } from "three"
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils"
 
 const objLoader = new OBJLoader()
 const dracoExporter = new DRACOExporter()
@@ -38,6 +39,8 @@ function performCompress( meshes, filename ) {
 		}
 	}
 
+	const geometries = []
+
 	for ( let i = 0; i < meshes.length; i++ ) {
 
 		const geometry = meshes[ i ].geometry
@@ -55,46 +58,28 @@ function performCompress( meshes, filename ) {
 				geometry.setAttribute( name, bufferAttribute )
 			}
 		}
+
+		geometries.push( geometry )
 	}
 
 	// Compression
 
-	const blobs = []
+	try {
 
-	for ( let i = 0; i < meshes.length; i++ ) {
+		const geometry = mergeGeometries( geometries, true )
 
-		const mesh = meshes[ i ]
+		const mesh = new Mesh( geometry )
 
-		try {
+		const buffer = dracoExporter.parse( mesh )
 
-			const buffer = dracoExporter.parse( mesh )
+		const blob = new Blob( [ buffer ], { type: "application/octet-stream" } )
 
-			const blob = new Blob( [ buffer ], { type: "application/octet-stream" } )
-
-			blobs.push( blob )
-		}
-		catch( e ) {
-
-			console.log( e )
-		}
+		self.postMessage( { blob, filename } )
 	}
+	catch( err ) {
 
-	self.postMessage( {
-		blob: mergeBlobs( blobs ),
-		filename,
-	} )
-}
-
-function mergeBlobs( blobs ) {
-
-	const metadata = blobs.map( blob => ( {
-		size: blob.size,
-		type: blob.type
-	} ) )
-
-	const metadataBlob = new Blob( [ JSON.stringify( metadata ) ], { type: "application/json" } )
-
-	return new Blob( [ metadataBlob, ...blobs ] )
+		console.error( err )
+	}
 }
 
 function getAttributesBufferType( array ) {
