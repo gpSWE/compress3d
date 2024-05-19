@@ -1,4 +1,4 @@
-import { formatFileSize } from "./FileUtils"
+import { formatFileSize, getFilename } from "./FileUtils"
 
 export function DOMRenderFileList( files ) {
 
@@ -9,6 +9,8 @@ export function DOMRenderFileList( files ) {
 		// Create a row
 
 		const tr = document.createElement( "tr" )
+
+		tr.dataset.name = getFilename( file.name )
 
 		table.children[ 1 ].appendChild( tr )
 

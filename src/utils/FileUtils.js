@@ -88,3 +88,24 @@ export function isValidOBJFile( fileContents ) {
 
 	return false
 }
+
+export function getFilename( filename ) {
+
+	const names = filename.split( "." )
+
+	names.pop()
+
+	return names.join( "." ) + ".compress3d"
+}
+
+export function downloadBlob( blob, filename ) {
+
+	const url = URL.createObjectURL( blob )
+	const a = document.createElement( "a" )
+	a.href = url
+	a.download = filename
+	document.body.appendChild( a )
+	a.click()
+	document.body.removeChild( a )
+	URL.revokeObjectURL( url )
+}
